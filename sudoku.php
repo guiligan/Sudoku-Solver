@@ -70,13 +70,13 @@ class Sudoku {
         if (is_int ($state[$row][$column]['value']) === true)
             $this->_solve ($state, $this->_getNext('row', $row, $column), $this->_getNext('column', $row, $column));
         else {
-            $new_state = $state;
             foreach ($state[$row][$column]['possible'] as $move) {
+                $new_state = $state;
                 $this->_interactions++;
                 $new_state[$row][$column]['value'] = $move;
-                $new_state = $this->_buildPossibilities($new_state);
+                $new_state = $this->_buildChangePossibilities($new_state, array ($move), $row, $column);
                 
-                if ($this->_validatePossibilities ($this->_puzzle) === false)
+                if ($new_state === false || $this->_validatePossibilities ($this->_puzzle) === false)
                     continue;
                 
                 if ($this->_checkAnswer($new_state) === true) {
@@ -115,6 +115,35 @@ class Sudoku {
                     $state[$i][$x]['possible'] = array();
             }
         }
+        
+        return $state;
+    }
+    
+    private function _buildChangePossibilities ($state, $move, $row, $column) {
+        if ($this->_validated === false)
+            throw new Exception ('Puzzle must be validated before continuing');
+        
+        for ($i = $this->_start; $i < 9+$this->_start; $i++) {
+            if (is_null ($state[$i][$column]['value']) === true) {
+                $state[$i][$column]['possible'] = array_diff ($state[$i][$column]['possible'], $move);
+                if (sizeof ($state[$i][$column]['possible']) == 0) return false;
+            }
+            
+            if (is_null ($state[$row][$i]['value']) === true) {
+                $state[$row][$i]['possible'] = array_diff ($state[$row][$i]['possible'], $move);
+                if (sizeof ($state[$row][$i]['possible']) == 0) return false;
+            }
+        }
+        
+        $square = $this->_getSquare ($row, $column);
+        for ($i = $square['row']['start'] + $this->_start; $i <= $square['row']['end'] + $this->_start; $i++)
+            for ($x = $square['column']['start'] + $this->_start; $x <= $square['column']['end'] + $this->_start; $x++)
+                if ($i != $row && $x != $column) {
+                    if (is_null ($state[$i][$x]['value']) === true) {
+                        $state[$i][$x]['possible'] = array_diff ($state[$i][$x]['possible'], $move);
+                        if (sizeof ($state[$i][$x]['possible']) == 0) return false;
+                    }
+                }
         
         return $state;
     }
@@ -226,7 +255,7 @@ class Sudoku {
     }
 }
 
-$puzzle = array (
+$puzzle_easy = array (
     1 => array (
         1 => null,
         2 => 3,
@@ -328,8 +357,110 @@ $puzzle = array (
     )
 );
 
+$puzzle_extreme = array (
+    1 => array (
+        1 => 4,
+        2 => 1,
+        3 => null,
+        4 => 9,
+        5 => null,
+        6 => null,
+        7 => null,
+        8 => null,
+        9 => null
+    ),
+    2 => array (
+        1 => 9,
+        2 => 8,
+        3 => null,
+        4 => null,
+        5 => null,
+        6 => null,
+        7 => 4,
+        8 => null,
+        9 => 3
+    ),
+    3 => array (
+        1 => null,
+        2 => null,
+        3 => 6,
+        4 => 1,
+        5 => null,
+        6 => 3,
+        7 => null,
+        8 => null,
+        9 => null
+    ),
+    4 => array (
+        1 => null,
+        2 => null,
+        3 => 1,
+        4 => null,
+        5 => null,
+        6 => 6,
+        7 => null,
+        8 => null,
+        9 => null
+    ),
+    5 => array (
+        1 => 7,
+        2 => null,
+        3 => null,
+        4 => null,
+        5 => null,
+        6 => null,
+        7 => null,
+        8 => null,
+        9 => 4
+    ),
+    6 => array (
+        1 => null,
+        2 => null,
+        3 => null,
+        4 => 3,
+        5 => null,
+        6 => null,
+        7 => 5,
+        8 => null,
+        9 => null
+    ),
+    7 => array (
+        1 => null,
+        2 => null,
+        3 => null,
+        4 => 7,
+        5 => null,
+        6 => 9,
+        7 => 8,
+        8 => null,
+        9 => null
+    ),
+    8 => array (
+        1 => 5,
+        2 => null,
+        3 => 9,
+        4 => null,
+        5 => null,
+        6 => null,
+        7 => null,
+        8 => 2,
+        9 => 6
+    ),
+    9 => array (
+        1 => null,
+        2 => null,
+        3 => null,
+        4 => null,
+        5 => null,
+        6 => 5,
+        7 => null,
+        8 => 9,
+        9 => 7
+    )
+);
+
 
 ini_set ('max_execution_time', 0);
-new Sudoku ($puzzle, 1);
-/**/
+new Sudoku ($puzzle_easy, 1);
+//new Sudoku ($puzzle_extreme, 1);
 ?>

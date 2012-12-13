@@ -1,13 +1,9 @@
 Sudoku Solver
 =============
 
-This PHP script was created to solve any kind of Sudoku 9x9 puzzle. From tests made using Intel Core I3 computer, it took the script 0.2723 seconds and 55 interactions to solve an easy puzzle, and less then 2 minutes to solve an extreme 
+This PHP script was created to solve any kind of Sudoku 9x9 puzzle. From tests made using Intel Core I3 computer, it took the script 0.00327 seconds and 49 interactions to solve an easy puzzle, and less then 1 minute to solve an extreme puzzle.
 
-puzzle.
-
-The script uses some Artificial Intelligence to find the solution. First it looks for all possible answers in each empty slot, then it will start guessing the number for each slot according to previously created possibilities. After 
-
-guessing a slot, the script checks if any available square will have no possible answer, going back if needed.
+The script uses some Artificial Intelligence to find the solution. First it looks for all possible answers in each empty slot, then it will start guessing the number for each slot according to previously created possibilities. After guessing a slot, the script checks if any available square will have no possible answer, going back if needed.
 
 How to use
 ==========
@@ -48,7 +44,7 @@ an example using the following Sudoku puzzle, and next the solved problem:
 
 `... 2 ... | 8 ....... | 4 . 1 ...`
 
-Solution found (55 interactions and 0.2687 seconds): 
+Solution found (49 interactions and 0.0327 seconds): 
 
 `7 3 2 | 5 8 9 | 1 4 6`
 
@@ -71,3 +67,8 @@ Solution found (55 interactions and 0.2687 seconds):
 `8 1 7 | 3 2 4 | 6 5 9`
 
 `5 2 9 | 8 6 7 | 4 1 3`
+
+
+Update
+======
+Changed how possibilities are calculated after first time, and achieved a faster solution. Last results where: 55 interactions and 0.2687 seconds. Now, the same computer and puzzle: 49 interactions and 0.0327 seconds.
