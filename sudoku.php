@@ -49,7 +49,7 @@ class Sudoku {
         
         $this->_printSudoku($this->_puzzle, -1, -1);
         if ($this->_validatePossibilities ($this->_puzzle) === false)
-            throw new Exception ('Fatal error iniciating the puzzle possibilities');
+            throw new Exception ('Fatal error initiating the puzzle possibilities');
         
         $this->_solve ($this->_puzzle);
     }
@@ -241,7 +241,6 @@ class Sudoku {
         
         echo 'Solution found (' . $this->_interactions . ' interactions and ' . $total_time . ' seconds): <br />';
         $this->_printSudoku ($this->_answer, -1, -1);
-        exit;
     }
     
     private function _getNext($type, $row, $column) {
@@ -462,5 +461,5 @@ $puzzle_extreme = array (
 
 ini_set ('max_execution_time', 0);
 new Sudoku ($puzzle_easy, 1);
-//new Sudoku ($puzzle_extreme, 1);
+new Sudoku ($puzzle_extreme, 1);
 ?>

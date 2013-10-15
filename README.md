@@ -1,7 +1,7 @@
 Sudoku Solver
 =============
 
-This PHP script was created to solve any kind of Sudoku 9x9 puzzle. From tests made using Intel Core I3 computer, it took the script 0.00327 seconds and 49 interactions to solve an easy puzzle, and less then 1 minute to solve an extreme puzzle.
+This PHP script was created to solve any kind of Sudoku 9x9 puzzle. From tests made using Intel Core I3 computer, it took the script 0.00327 seconds and 49 interactions to solve an easy puzzle, and less then 1 second (0.8409) to solve an extreme puzzle.
 
 The script uses some Artificial Intelligence to find the solution. First it looks for all possible answers in each empty slot, then it will start guessing the number for each slot according to previously created possibilities. After guessing a slot, the script checks if any available square will have no possible answer, going back if needed.
 
